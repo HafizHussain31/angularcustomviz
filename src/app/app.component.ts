@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  tabActive = "tab1";
   title = 'my-app';
+
+  activeTabChanged(tab: string) {
+    this.tabActive = tab;
+  }
 }

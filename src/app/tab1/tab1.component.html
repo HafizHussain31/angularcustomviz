@@ -1,0 +1,64 @@
+<div class="container">
+    <p>Tab1 works</p>
+
+    <div class="row">
+        <mat-form-field>
+            <mat-select [formControl]="charts" multiple (selectionChange)="changed()">
+                <mat-option *ngFor="let chart of chartsList" [value]="chart">{{chart}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-slide-toggle class="example-margin" [(ngModel)]="toggle1">
+            Toggle 1
+        </mat-slide-toggle>
+        <mat-slide-toggle class="example-margin" [(ngModel)]="toggle2">
+            Toggle 2
+        </mat-slide-toggle>
+        <mat-slide-toggle class="example-margin" [(ngModel)]="toggle3">
+            Toggle 3
+        </mat-slide-toggle>
+        <mat-slide-toggle class="example-margin" [(ngModel)]="toggle4">
+            Toggle 4
+        </mat-slide-toggle>
+        <mat-slide-toggle class="example-margin" color="white" [(ngModel)]="toggle5">
+            Toggle 5
+        </mat-slide-toggle>
+    </div>
+
+    <app-tab1chart *ngFor="let chart of mySelections" [chart]="chart"></app-tab1chart>
+
+    <div class="row">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="toggle1" disabled="true">
+                <p>Toggle 1</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="row">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="toggle2" disabled="true">
+                <p>Toggle 2</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="row">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="toggle3" disabled="true">
+                <p>Toggle 3</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="row">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="toggle4" disabled="true">
+                <p>Toggle 4</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="row">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="toggle5" disabled="true">
+                <p>Toggle 5</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
