@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import * as D3 from 'd3';
-import { EventEmitter } from 'events';
 
 declare var require: any;
 let Boost = require('highcharts/modules/boost');
@@ -44,90 +43,144 @@ export class Tab1chartComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     let chartStr: string = this.chart;
-    console.log(chartStr);
-    this.chartid = chartStr.replace(/\s/g, "");
-    D3.csv('./assets/Tab1.csv').then(data => {
-      let selectedChart = this.chart;
-      // let selectedCharts = this.selectedCharts.map(d => d.value);
-      let filteredData = data.filter(function (d) {
-        return d['Chart Type'] == selectedChart
-      })
+    if (chartStr != "Special") {
+      this.chartid = chartStr.replace(/\s/g, "");
+      D3.csv('./assets/Tab1.csv').then(data => {
+        D3.csv('./assets/Tab1Range.csv').then(rangeData => {
+          let selectedChart = this.chart;
+          // let selectedCharts = this.selectedCharts.map(d => d.value);
+          let filteredData = data.filter(function (d) {
+            return d['Chart Type'] == selectedChart
+          })
+          let filteredRange = rangeData.filter(d => d['Replacement '] == selectedChart);
+          let seriesData = [];
+          filteredData.forEach(function (d) {
+            let tmp = [];
+            tmp[0] = new Date(d['Date'] + ' ' + d['Time']).getTime();
+            tmp[1] = parseFloat(d['Value']);
+            seriesData.push(tmp);
+          })
 
-      let seriesData = [];
-      filteredData.forEach(function (d) {
-        let tmp = [];
-        tmp[0] = new Date(d['Date'] + ' ' + d['Time']).getTime();
-        tmp[1] = parseFloat(d['Value']);
-        seriesData.push(tmp);
-      })
-      // selectedCharts.forEach((chart) => {
-      //   let tmp = {}, tmpMarker = {};
-      //   tmpMarker['fillColor'] = "transparent";
-      //   tmp['marker'] = tmpMarker;
-      //   tmp['data'] = filteredData.map((d) => d[chart] ? parseFloat(d[chart]) : NaN);
-      //   tmp['name'] = chart;
-      //   tmp['color'] = this.serieColors[chart];
-      //   seriesData.push(tmp);
-      // })
+          let greenRangeData = [];
+          let tmp1 = [];
+          tmp1[0] = seriesData[0][0];
+          tmp1[1] = parseFloat(filteredRange[0]['Min Yellow']);
+          tmp1[2] = parseFloat(filteredRange[0]['Max Yellow']);
+          greenRangeData.push(tmp1);
+          tmp1 = [];
+          tmp1[0] = seriesData[seriesData.length - 1][0];
+          tmp1[1] = parseFloat(filteredRange[0]['Min Yellow']);
+          tmp1[2] = parseFloat(filteredRange[0]['Max Yellow']);
+          greenRangeData.push(tmp1);
 
-      this.options = {
-        chart: {
-          zoomType: 'x'
-        },
-        title: {
-          text: 'USD to EUR exchange rate over time'
-        },
-        subtitle: {
-          text: document.ontouchstart === undefined ?
-            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-        },
-        xAxis: {
-          type: 'datetime'
-        },
-        yAxis: {
-          title: {
-            text: 'Exchange rate'
-          }
-        },
-        legend: {
-          enabled: false
-        },
-        plotOptions: {
-          area: {
-            fillColor: {
-              linearGradient: {
-                x1: 0,
-                y1: 0,
-                x2: 0,
-                y2: 1
-              },
-              stops: [
-                [0, Highcharts.getOptions().colors[0]],
-                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-              ]
+          let yellowRangeData = [];
+          tmp1 = [];
+          tmp1[0] = seriesData[0][0];
+          tmp1[1] = parseFloat(filteredRange[0]['Min Green']);
+          tmp1[2] = parseFloat(filteredRange[0]['Max G']);
+          yellowRangeData.push(tmp1);
+          tmp1 = [];
+          tmp1[0] = seriesData[seriesData.length - 1][0];
+          tmp1[1] = parseFloat(filteredRange[0]['Min Green']);
+          tmp1[2] = parseFloat(filteredRange[0]['Max G']);
+          yellowRangeData.push(tmp1);
+
+          this.options = {
+            chart: {
+              zoomType: 'x',
             },
-            marker: {
-              radius: 2
+            title: {
+              text: 'USD to EUR exchange rate over time'
             },
-            lineWidth: 1,
-            states: {
-              hover: {
-                lineWidth: 1
+            subtitle: {
+              text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+              type: 'datetime'
+            },
+            yAxis: {
+              title: {
+                text: 'Exchange rate'
               }
             },
-            threshold: null
+            legend: {
+              enabled: false
+            },
+            plotOptions: {
+              series: {
+                marker: {
+                  enabled: false
+                }
+              }
+            },
+
+            series: [
+              {
+                type: 'arearange',
+                name: 'USD to EUR',
+                data: greenRangeData
+              }, {
+                type: 'arearange',
+                name: 'USD to EUR',
+                data: yellowRangeData
+              }, {
+                type: 'line',
+                name: 'USD to EUR',
+                data: seriesData
+              }]
           }
-        },
 
-        series: [{
-          type: 'area',
-          name: 'USD to EUR',
-          data: seriesData
-        }]
-      }
+          let chartContainerId = 'tab1-' + this.chartid;
+          Highcharts.chart(chartContainerId, this.options);
+        })
+      })
+    } else {
+      this.chartid = chartStr.replace(/\s/g, "");
+      D3.csv('./assets/Tab1Special.csv').then(data => {
+        let selectedChart = this.chart;
+        this.options = {
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Percent'
+          },
+          xAxis: {
+            categories: data.map((d) => d['Bar']),
+            crosshair: true
+          },
+          legend: {
+            enabled: false
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Percent'
+            }
+          },
+          tooltip: {
+            headerFormat: '<table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' +
+              '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+          },
+          plotOptions: {
+            column: {
+              pointPadding: 0.2,
+              borderWidth: 0
+            }
+          },
+          series: [{
+            data: data.map((d) => parseInt(d['Percent']))
+          }]
+        };
+        let chartContainerId = 'tab1-' + this.chartid;
+        Highcharts.chart(chartContainerId, this.options);
+      })
+    }
 
-      let chartContainerId = 'tab1-' + this.chartid;
-      Highcharts.chart(chartContainerId, this.options);
-    })
   }
 }

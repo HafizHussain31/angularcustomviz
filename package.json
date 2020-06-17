@@ -23,6 +23,7 @@
     "@angular/router": "~9.1.9",
     "d3": "^5.16.0",
     "highcharts": "^8.1.0",
+    "highcharts-gantt": "^0.1.7",
     "rxjs": "~6.5.4",
     "rxjs-compat": "^6.5.5",
     "tslib": "^1.10.0",

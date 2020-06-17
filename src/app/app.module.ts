@@ -18,6 +18,12 @@ import { Tab2chartComponent } from './tab2/tab2chart/tab2chart.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Tab1chartComponent } from './tab1/tab1chart/tab1chart.component';
+import { Tab1specialchartComponent } from './tab1/tab1specialchart/tab1specialchart.component';
+import { Toggle2chartComponent } from './tab1/toggle2chart/toggle2chart.component';
+import { Toggle1chartComponent } from './tab1/toggle1chart/toggle1chart.component';
+import { Toggle3chartComponent } from './tab1/toggle3chart/toggle3chart.component';
+import { Toggle4chartComponent } from './tab1/toggle4chart/toggle4chart.component';
+import { Toggle5chartComponent } from './tab1/toggle5chart/toggle5chart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +31,13 @@ import { Tab1chartComponent } from './tab1/tab1chart/tab1chart.component';
     Tab1Component,
     Tab2Component,
     Tab2chartComponent,
-    Tab1chartComponent
+    Tab1chartComponent,
+    Tab1specialchartComponent,
+    Toggle2chartComponent,
+    Toggle1chartComponent,
+    Toggle3chartComponent,
+    Toggle4chartComponent,
+    Toggle5chartComponent
   ],
   imports: [
     BrowserModule,
