@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { Tab1Component } from './tab1/tab1.component';
@@ -13,7 +14,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Tab2chartComponent } from './tab2/tab2chart/tab2chart.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -24,10 +24,12 @@ import { Toggle1chartComponent } from './tab1/toggle1chart/toggle1chart.componen
 import { Toggle3chartComponent } from './tab1/toggle3chart/toggle3chart.component';
 import { Toggle4chartComponent } from './tab1/toggle4chart/toggle4chart.component';
 import { Toggle5chartComponent } from './tab1/toggle5chart/toggle5chart.component';
+import { DialogOverviewExampleDialog } from './header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    DialogOverviewExampleDialog,
     Tab1Component,
     Tab2Component,
     Tab2chartComponent,
@@ -41,6 +43,8 @@ import { Toggle5chartComponent } from './tab1/toggle5chart/toggle5chart.componen
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -48,8 +52,6 @@ import { Toggle5chartComponent } from './tab1/toggle5chart/toggle5chart.componen
     MatSelectModule,
     MatDialogModule,
     MatFormFieldModule,
-    FormsModule,
-    ReactiveFormsModule,
     MatInputModule,
     MatSlideToggleModule,
     MatExpansionModule,
@@ -58,6 +60,7 @@ import { Toggle5chartComponent } from './tab1/toggle5chart/toggle5chart.componen
 
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogOverviewExampleDialog]
 })
 export class AppModule { }
